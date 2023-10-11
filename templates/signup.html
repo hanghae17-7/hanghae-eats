@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+  <head>
+    <title>회원가입</title>
+  </head>
+  <body>
+    <h1>회원가입</h1>
+    <form method="POST">
+      <label for="username">사용자 이름:</label>
+      <input type="text" name="username" required /><br />
+      <label for="nickname">닉네임 :</label>
+      <input type="text" name="nickname" required /><br />
+      <label for="email">이메일 :</label>
+      <input type="email" name="email" required /><br />
+      <label for="password">비밀번호 :</label>
+      <input id="password" type="password" name="password" required /><br />
+
+      <br />
+      <span id="password_message" style="color: red"></span>
+      <br />
+      <label for="password_confirm">비밀번호 확인:</label>
+      <input
+        type="password"
+        name="password_confirm"
+        id="password_confirm"
+        required
+      />
+      <br />
+      <span id="password_confirm_message" style="color: red"></span>
+      <br />
+      <br />
+      <br />
+
+      <input type="submit" value="가입" />
+    </form>
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <ul>
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %} {% endwith %}
+  </body>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const password = document.getElementById("password");
+      const passwordConfirm = document.getElementById("password_confirm");
+      const passwordMessage = document.getElementById("password_message");
+      const passwordConfrmMessage = document.getElementById(
+        "password_confirm_message"
+      );
+
+      password.addEventListener("input", function () {
+        const passwordValue = password.value;
+
+        // 비밀번호의 최소 자릿수를 정의 (예: 8자)
+        const minPasswordLength = 8;
+        // 특수 문자 포함 여부를 확인하는 정규 표현식
+        const specialCharRegex = /[!@#$%^&*()]/;
+        console.log(passwordValue);
+        // 비밀번호 자릿수 및 특수 문자 검증
+        if (passwordValue.length < minPasswordLength) {
+          passwordMessage.innerHTML =
+            "비밀번호는 최소 " + minPasswordLength + "자여야 합니다.";
+          password.setCustomValidity(
+            "비밀번호는 최소 " + minPasswordLength + "자여야 합니다."
+          );
+        } else if (!specialCharRegex.test(passwordValue)) {
+          passwordMessage.innerHTML =
+            "비밀번호에 !@#$%^&*() 중 하나 이상의 특수 문자를 포함해야 합니다.";
+          password.setCustomValidity(
+            "비밀번호에 !@#$%^&*() 중 하나 이상의 특수 문자를 포함해야 합니다."
+          );
+        } else {
+          passwordMessage.innerHTML = "";
+          password.setCustomValidity("");
+        }
+      });
+
+      passwordConfirm.addEventListener("input", function () {
+        if (password.value !== passwordConfirm.value) {
+          passwordConfirm.setCustomValidity("비밀번호가 일치하지 않습니다.");
+          passwordMessage.innerHTML = "비밀번호가 일치하지 않습니다.";
+        } else {
+          passwordConfirm.setCustomValidity("");
+          passwordMessage.innerHTML = "";
+        }
+      });
+    });
+  </script>
+</html>
