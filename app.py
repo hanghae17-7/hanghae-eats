@@ -1,5 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for
+import datetime
+import os
+from flask import Flask, flash, render_template, request, redirect, url_for, jsonify
 from flask_migrate import Migrate
+from flask_jwt_extended import *  # jwt 서드파티 등록
+from jwt import encode
+from werkzeug.security import generate_password_hash, check_password_hash
+
 from db_connect import db
 import config
 
@@ -7,15 +13,20 @@ from models.song import Song  # 3.
 
 from models.user import User
 
-
+SECRET_KEY = "hanghaeJWT"
 app = Flask(__name__)
 app.config.from_object(config)
+app.secret_key = os.urandom(24)
+
 
 db.init_app(app)
 Migrate().init_app(app, db)
 
 with app.app_context():
     db.create_all()
+
+
+jwt = JWTManager(app)  # jwtmanager 등록
 
 
 @app.route('/')
@@ -67,15 +78,25 @@ def checkEmailDuplicate(email):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
+        email = request.form['email']
         password = request.form['password']
-        if validate_login(username, password):
-            # jwt 토큰?
+        user = User.query.filter_by(email=email).first()
+        if user and validate_login(email, password):  # 로그인이 유효한 경우
 
-            return redirect(url_for('/storelist'))
+            dateString = (datetime.datetime.utcnow(  # TypeError: Object of type datetime is not JSON serializable 해결하기 위해
+            ) + datetime.timedelta(seconds=60)).strftime("%Y-%m-%d %H:%M:%S")
+
+            payload = {'email': email, 'expire': dateString
+                       }
+            token = encode(payload, SECRET_KEY,
+                           algorithm='HS256')  # 응답 jsonify 객체 생성
+
+            return jsonify({'result': 'success', 'token': token})
+            # jwt 토큰?
         else:
-            error = '비밀번호가 틀렸습니다.'
-            return render_template('login.html', error=error)
+            flash('비밀번호가 틀렸습니다', 'error')
+            return render_template('login.html')
+
     return render_template('login.html')
 
 
@@ -84,6 +105,24 @@ def validate_login(email, password):
     if user:
         return True
     return False
+
+
+@app.route('/token-check')
+def checkTokenVaild():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        print(payload)
+        return render_template('storelist.html')
+    except jwt.ExpiredSignatureError:
+        return render_template('login.html')
+    except:
+        return render_template('login.html')
+
+# @app.route('/profile')
+# def profile():
+#     if 'username'
+
 
 ###############
 # 예시 데이터  #
