@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, request, url_for, session, redirect 
 from models.order import Order, OrderDetail
+from models.user import User
 from db_connect import db
-
+from myJWT import isTokenVaild, getUserEmail
 from datetime import datetime
 from pytz import timezone
 
@@ -13,15 +14,24 @@ def order_list():
     """
     주문 목록
     """
+    # 유효성 검증
+    if (isTokenVaild() == False):  # 현재 쿠키의 토큰이 유효하지 않으면
+        print("로그인 하세요.")
+        return redirect("/login")  # 다시 로그인 페이지로
+    
     if request.method == 'GET':    
-        login_user = 1 # TODO: session or jwt or parameter
+        # token을 가져와 user 판별.
+        user_email = getUserEmail()
+        user_id = User.query.filter_by(email=user_email).first().id
+        
+        # 주문 목록 가져오기
+        orders = Order.query.filter_by(user_id=user_id).all()
 
         context = {
             "order": []
         }
 
-        # 주문 목록 가져오기
-        orders = Order.query.filter_by(user_id=1).all()
+        
 
         for order in orders:
             order_details = OrderDetail.query.filter_by(order_id=order.id).all()
@@ -50,10 +60,17 @@ def order():
     """
     주문
     """
+    # 유효성 검증
+    if (isTokenVaild() == False):  # 현재 쿠키의 토큰이 유효하지 않으면
+        print("로그인 하세요.")
+        return redirect("/login")  # 다시 로그인 페이지로
+    
     if request.method == 'POST':
+        # token을 가져와 user 판별.
+        user_email = getUserEmail()
+        user_id = User.query.filter_by(email=user_email).first().id
+
         data = request.get_json()
-        print('data : ', data)
-        user_id = 1  # TODO: session or jwt or parameter
         shop_id = data['cart_list'][0]['shop_id']
         order_date = datetime.now(timezone('Asia/Seoul')).strftime("%Y-%m-%d %H:%M:%S")
         total_price = data['total_price']    
