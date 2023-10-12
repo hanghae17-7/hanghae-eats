@@ -11,4 +11,4 @@ def index():
     """
     메인 페이지
     """
-    return render_template('login.html')
+    return render_template('newlogin.html')

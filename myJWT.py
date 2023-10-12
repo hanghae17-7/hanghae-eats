@@ -26,6 +26,11 @@ def isTokenVaild():
         payload = jwt.decode(token_receive, JWT_SECRET_KEY,
                              algorithms=['HS256'])
         print(payload)
+        
+        # 만약 이렇게 다 구현할거면
+        # decode된 결과가 조작이되지않았는지 검사하는 기능도 필요하다.1
+
+        # 라이브러리 더 찾아보고 해야겠다..
         expire_time = datetime.datetime.strptime(
             payload['expire'], '%Y-%m-%d %H:%M:%S')
         print(expire_time)

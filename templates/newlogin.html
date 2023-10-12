@@ -1,0 +1,57 @@
+{% extends 'base.html' %} {% block head%}
+
+<link rel="stylesheet" href="../static/assets/css/login.css" />
+{% endblock %} {% block title%} 로그인 {% endblock %} {% block page_content %}
+
+<section class="login">
+  <div class="login_box">
+    <div class="left">
+      <div class="top_link"></div>
+      <div class="contact">
+        <form id="login-form" method="POST">
+          <h3>로그인</h3>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            placeholder="이메일"
+          />
+          <input
+            type="password"
+            id="password"
+            name="password"
+            required
+            placeholder="비밀번호"
+          />
+          <!-- flash 메시지 표시 -->
+          {% with messages = get_flashed_messages(with_categories=true) %} {% if
+          messages %}
+          <ul>
+            {% for category, message in messages %}
+            <p style="color: red">{{ message }}</p>
+            {% endfor %}
+          </ul>
+          {% endif %} {% endwith %}
+
+          <button class="submit" type="submit">로그인</button>
+        </form>
+      </div>
+      <button class="signin">회원가입</button>
+    </div>
+    <div class="right">
+      <div class="right-text">
+        <h3>항해이츠에 오신 걸 환영합니다!</h3>
+        <h5>A UX BASED CREATIVE AGENCEY</h5>
+      </div>
+    </div>
+  </div>
+</section>
+<script src="{{ url_for ('static', filename='assets/js/login.js') }}"></script>
+{% endblock %}
+
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<body>
+  
+</body>
+</html> -->

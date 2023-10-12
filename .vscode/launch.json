@@ -10,9 +10,10 @@
         "FLASK_APP": "app.py",
         "FLASK_DEBUG": "1"
       },
-      "args": ["run", "--no-debugger", "--no-reload"],
+      "args": ["run", "--debug", "--no-reload"],
+      // --no-debugger
 
-      "justMyCode": true
+      "justMyCode": false
     }
   ]
 }
