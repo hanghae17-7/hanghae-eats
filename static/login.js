@@ -18,7 +18,7 @@ function loginformsubmit(e) {
       console.log(data);
       if (data.result == "success") {
         document.cookie = "mytoken=" + data.token + "; path=/";
-        window.location.replace("/storelist"); // 로그인 성공했으므로 가게리스트 페이지로 이동
+        window.location.replace("/myaccount"); // 로그인 성공했으므로 가게리스트 페이지로 이동
       } else {
         console.log("로그인 fail data 넘어옴");
       }

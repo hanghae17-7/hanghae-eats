@@ -37,7 +37,7 @@ def login():
             flash('비밀번호가 틀렸습니다', 'error')
             return render_template('login.html')
 
-    print("1 else")
+    print("Get 요청")
     return render_template('login.html')
 
 
