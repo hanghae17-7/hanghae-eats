@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>주문 목록</title>
+</head>
+<body>
+    <h1>주문 목록</h1>
+    <ul>
+        {% for order in data.order %}
+        <li>
+            <h2>주문 ID: {{ order.order_id }}</h2>
+            <p>주문 날짜: {{ order.order_date }}</p>
+            <ul>
+                {% if order.food %}
+                    {% for food_item in order.food %}
+                    <li>
+                        <p>음식 ID: {{ food_item.id }}</p>
+                        <p>음식 이름: {{ food_item.food_name }}</p>
+                        <p>음식 가격: {{ food_item.food_price }}</p>
+                    </li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
