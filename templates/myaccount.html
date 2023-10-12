@@ -1,19 +1,18 @@
 <!doctype html>
 <html>
   <head>
-    <title>Login</title>
+    <title>내 정보</title>
   </head>
   <body>
-    <h1>Login</h1>
-    <form method="POST">
-      <label for="username">Username :</label>
-      <input type="text" name="username" required /><br />
-      <label for="password">Password :</label>
-      <input type="password" name="password" required /><br />
-      <input type="submit" value="Login" />
-    </form>
-    {% if error %}
-    <p>{{ error }}</p>
-    {% endif %}
+    <h1>내 정보</h1>
+    <ul>
+      <strong>Name:</strong>
+      {{ user.username }}<br />
+      <strong>Nickname:</strong>
+      {{ user.nickname }}<br />
+      <strong>Email:</strong>
+      {{ user.email }}<br />
+    </ul>
+    
   </body>
 </html>
