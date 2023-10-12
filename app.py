@@ -10,8 +10,8 @@ def create_app():
     app = Flask(__name__)
 
     # db 연결
-    app.config.from_object(config) # config에서 가져온 파일 사용
-    db.init_app(app) # SQLAlchemy 객체를 app 객체와 이어준다.
+    app.config.from_object(config)  # config에서 가져온 파일 사용
+    db.init_app(app)  # SQLAlchemy 객체를 app 객체와 이어준다.
     Migrate().init_app(app, db)
 
     with app.app_context():
@@ -25,5 +25,6 @@ def create_app():
 
     return app
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     create_app().run(debug=True)
