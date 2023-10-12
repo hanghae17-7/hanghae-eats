@@ -10,14 +10,17 @@
     <div class="card mb-3">
         <div class="card-body">
             <ul>
-                {% for cart in data['cart_list'] %}
-                    <h2 class="stats-item">{{ cart.shop_name }}</h2>
+                {% for order in data["order"] %}
+                    <div class="d-flex">
+                        <h4 class="stats-item me-2">{{ order.order_id }}</h4>
+                        <p class="me-3">{{ order.order_date }}</p>
+                        <p class="me-3">{{ order.order_address }}</p>
+                    </div>
                     <ul class="list-group">
-                        {% for food in cart.food %}
+                        {% for food in order.food %}
                             <li class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <!-- 이미지를 추가하려면 여기에 이미지 태그를 추가하세요 -->
                                         <img src="#" width="280px" height="130px" style="vertical-align: middle;">
                                     </div>
                                     <div class="col-md-9">
@@ -32,7 +35,7 @@
                                                 <div class="mb-2">{{ food.id }}</div>
                                                 <div class="mb-2">{{ food.food_name }}</div>
                                                 <div class="mb-2">{{ food.food_price }}</div>
-                                                <div class="mb-2">{{ food.food_count }}</div>
+                                                <div class="mb-2">{{ food.food_price }}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -41,40 +44,11 @@
                         {% endfor %}
                     </ul>
                 {% endfor %}
-                <h2 class="mt-3">주소지 입력</h2>
-                <input type="text" class="form-control" id="addressInput" name="address" placeholder="주소지 입력">
-                <h2 class="mt-3">총 가격</h2>
-                <input type="text" class="form-control" value="{{ data['total_price'] }}" readonly>
             </ul>
             
         </div>
     </div>
-    <div class="d-flex justify-content-center">
-        <button type="button" class="btn btn-danger mb-3" id="submitOrderButton">주문하기</button>
-    </div>
 </div>
 
-    <script>
-        document.getElementById("submitOrderButton").addEventListener("click", function() {
-            // 데이터를 서버에 POST
-            var formData = {
-                cart_list: {{ data['cart_list'] | tojson }},  // Python dict를 JSON 문자열로 변환
-                total_price: {{ data['total_price'] }}
-            };
-            console.log('form_date : ', formData);
-            fetch('/order', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),  // JSON 데이터를 서버로 전송
-            }).then(response => {
-                return response.text();
-            }).then(data => {
-                console.log(data);  // 서버에서 받은 응답 메시지 표시
-                // window.location.href = '/order/list'; TODO: 주문목록으로 이동하기.
-            });
-        });
-    </script>
 {% endblock %}
 
