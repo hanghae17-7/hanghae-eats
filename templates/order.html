@@ -1,28 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>주문 목록</title>
+    <title>주문 정보</title>
 </head>
 <body>
-    <h1>주문 목록</h1>
+    <h1>주문 정보</h1>
     <ul>
-        {% for order in data.order %}
+        {% for cart in data['cart_list'] %}
         <li>
-            <h2>주문 ID: {{ order.order_id }}</h2>
-            <p>주문 날짜: {{ order.order_date }}</p>
+            <h2>가게 ID: {{ cart.shop_id }}</h2>
+            <p>가게 이름: {{ cart.shop_name }}</p>
+            <h2>음식 정보</h2>
             <ul>
-                {% if order.food %}
-                    {% for food_item in order.food %}
-                    <li>
-                        <p>음식 ID: {{ food_item.id }}</p>
-                        <p>음식 이름: {{ food_item.food_name }}</p>
-                        <p>음식 가격: {{ food_item.food_price }}</p>
-                    </li>
-                    {% endfor %}
-                {% endif %}
+                {% for food in cart.food %}
+                <li>
+                    <p>음식 ID: {{ food.id }}</p>
+                    <label for="food_name{{ food.id }}">음식 이름:</label>
+                    <input type="text" id="food_name{{ food.id }}" name="food_name{{ food.id }}" value="{{ food.food_name }}" readonly><br><br>
+            
+                    <label for="food_price{{ food.id }}">음식 가격:</label>
+                    <input type="text" id="food_price{{ food.id }}" name="food_price{{ food.id }}" value="{{ food.food_price }}" readonly><br><br>
+            
+                    <label for="food_count{{ food.id }}">수량:</label>
+                    <input type="text" id="food_count{{ food.id }}" name="food_count{{ food.id }}" value="1" readonly><br><br>
+                </li>
+                {% endfor %}
             </ul>
         </li>
         {% endfor %}
     </ul>
+    <!-- 총 가격을 나타내는 total_price 추가 -->
+    <p>총 가격: {{ total_price }}</p>
 </body>
 </html>

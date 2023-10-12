@@ -4,8 +4,11 @@ from models.order import Order, OrderDetail
 
 bp = Blueprint('order', __name__, url_prefix='/order')
 
-@bp.route('/', methods=['GET', 'POST'])
-def order():
+@bp.route('/list', methods=['GET', 'POST'])
+def order_list():
+    """
+    주문 목록
+    """
     if request.method == 'GET':    
         login_user = 1 # session or jwt or parameter
 
@@ -33,10 +36,43 @@ def order():
                 foods.append(food)
             result["food"] = foods
             context["order"].append(result)
-        print(context)
+        # print(context)
 
-        return render_template("order.html", data=context)
+        return render_template("order_list.html", data=context)
     
-    elif request.method == 'POST':
-
+@bp.route('/', methods=['GET', 'POST'])
+def order():
+    """
+    주문
+    """
+    if request.method == 'POST':
         return None
+    
+    # TODO: cart_data 가져오기로 변경
+    context = {
+        'cart_list': [
+            {
+                "shop_id": 1,
+                "shop_name": "테스트음식",
+                'food':[
+                    {
+                    'id':1,
+                    'food_name':'테스트',
+                    'food_price':6000
+                    },
+                    {
+                    'id':2,
+                    'food_name':'테스트2',
+                    'food_price':3000
+                    },
+                    {
+                    'id':3,
+                    'food_name':'테스트3',
+                    'food_price':0
+                    }
+                ]
+            },
+        ]
+    }
+    
+    return render_template("order.html", data=context)
