@@ -5,7 +5,7 @@ from db_connect import db
 import config
 
 # 4. views 폴더에 만든 파일이름
-from views import index, signup, login, order, myaccount, storelist, cart
+from views import index, food
 
 
 def create_app():
@@ -24,12 +24,7 @@ def create_app():
 
     # 5. 만든 기능 작성 blueprint에 등록
     app.register_blueprint(index.bp)
-    app.register_blueprint(signup.bp)
-    app.register_blueprint(login.bp)
-    app.register_blueprint(order.bp)
-    app.register_blueprint(myaccount.bp)
-    app.register_blueprint(storelist.bp)
-    app.register_blueprint(cart.bp)
+    app.register_blueprint(food.bp)
 
     return app
 

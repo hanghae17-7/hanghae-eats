@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>음식 리스트</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f2f2f2;
+    }
+
+    .food-container {
+      display: flex;
+      flex-direction: column;
+      max-width: 1000px;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .food-item {
+      display: flex;
+      margin-bottom: 20px;
+    }
+
+    .food-image {
+      width: 300px;
+      /* 사진의 가로 크기를 조절하세요 */
+      height: auto;
+      margin-right: 10px;
+    }
+
+    .food-details {
+      flex: 1;
+    }
+
+    .food-details h3 {
+      margin-top: 0;
+    }
+
+    .food-price {
+      color: #e44d26;
+      /* 원하는 색상으로 변경하세요 */
+      font-weight: bold;
+    }
+
+    #counter {
+      font-size: 24px;
+      margin: 20px;
+    }
+
+    button {
+      font-size: 18px;
+      margin: 5px;
+      padding: 10px;
+    }
+  </style>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+
+
+</head>
+
+<body>
+  <!-- flask for 반복문 -->
+  {% for element in data %}
+  <!-- food list-->
+  <div class="food-container">
+    <div class="food-item">
+      <img src="{{element.furl}}" class="food-image">
+      <div class="food-details">
+        <h3>{{element.fname}}</h3>
+        <p>{{element.finfo}}</p>
+        <p class="food-price">가격: {{element.fprice}}원</p>
+      </div>
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal_{{ loop.index }}">
+        추가
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal_{{ loop.index }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">주문</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+          <h3>{{element.fname}}</h3>
+          <div id="counter">0</div>
+          <button id="increment">+</button>
+          <button id="decrement">-</button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal">추가</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+  <script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+      // 초기값 설정
+      let counterValue = 0;
+
+      // HTML 요소 가져오기
+      const counterElement = document.getElementById("counter");
+      const incrementButton = document.getElementById("increment");
+      const decrementButton = document.getElementById("decrement");
+      const counterValueInput = document.getElementById("counterValueInput");
+      const orderForm = document.getElementById("orderForm");
+
+      // 이벤트 리스너 추가
+      incrementButton.addEventListener("click", function () {
+        counterValue++;
+        updateCounter();
+      });
+
+      decrementButton.addEventListener("click", function () {
+        if (counterValue > 0) {
+          counterValue--;
+          updateCounter();
+        }
+      });
+
+      // 카운터 업데이트 함수
+      function updateCounter() {
+        counterElement.textContent = counterValue;
+      }
+    });
+
+    orderForm.addEventListener("submit", function () {
+      // 음식 카운터 값을 input에 설정
+      counterValueInput.value = counterValue;
+    });
+  </script>
+
+</body>
+
+</html>

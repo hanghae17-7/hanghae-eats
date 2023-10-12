@@ -2,30 +2,18 @@
 <html>
   <head>
     <title>Login</title>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
   </head>
   <body>
     <h1>Login</h1>
-    <form id = 'login-form' method="POST">
-      <label for="email">email :</label>
-      <input type="email" id="email" name="email" required /><br />
+    <form method="POST">
+      <label for="username">Username:</label>
+      <input type="text" name="username" required /><br />
       <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required /><br />
-      <input type = 'submit'/>
+      <input type="password" name="password" required /><br />
+      <input type="submit" value="Login" />
     </form>
-    
-    <!-- flash 메시지 표시 -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <ul>
-                {% for category, message in messages %}
-                    <li{% if category == 'error' %} style="color: red;"{% endif %}>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
-
-  <script src="{{ url_for ('static', filename='login.js') }}"></script>
+    {% if error %}
+    <p>{{ error }}</p>
+    {% endif %}
   </body>
 </html>
