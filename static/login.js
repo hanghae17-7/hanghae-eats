@@ -7,15 +7,13 @@ function loginformsubmit(e) {
   formData.append("email", document.getElementById("email").value);
   formData.append("password", document.getElementById("password").value);
 
+  console.log(formData);
+
   fetch("/login", {
     method: "POST",
     body: formData,
   })
-    .then((response) => {
-      console.log(response);
-      response.json();
-      console.log(response.json());
-    })
+    .then((response) => response.json())
     .then((data) => {
       console.log(data);
       if (data.result == "success") {

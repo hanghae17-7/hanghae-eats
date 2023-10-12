@@ -1,11 +1,9 @@
 import datetime
-import logging
 from flask import Blueprint, jsonify, render_template, request, url_for, session, redirect, flash
 from jwt import encode
 import jwt
 from config import JWT_SECRET_KEY
 from models.user import User
-
 
 bp = Blueprint('login', __name__, url_prefix='/login')
 
@@ -13,6 +11,7 @@ bp = Blueprint('login', __name__, url_prefix='/login')
 @bp.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
+
         email = request.form.get('email')
         password = request.form.get('password', False)
         print(email)
@@ -29,17 +28,17 @@ def login():
             # jwt 토큰 생성
             token = encode(payload, JWT_SECRET_KEY,
                            algorithm='HS256')
+
             # 응답 jsonify 객체 반환
             return jsonify({'result': 'success', 'token': token})
 
         else:
             print("비밀번호 틀림")
             flash('비밀번호가 틀렸습니다', 'error')
-            return render_template('newlogin.html')
+            return render_template('login.html')
 
-    print("Get 요청인 경우", flush=True)
-    # return render_template('login.html')
-    return render_template('newlogin.html')
+    print("1 else")
+    return render_template('login.html')
 
 
 def validate_login(email, password):
