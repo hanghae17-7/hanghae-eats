@@ -27,15 +27,16 @@ def order_list():
             order_details = OrderDetail.query.filter_by(order_id=order.id).all()
             result = {
                 "order_id": order.id,
-                "order_date": order.order_date
+                "order_date": order.order_date,
+                "order_address": order.order_address,
             }
             foods = []
             for order_detail_food in order_details:
                 food = {
                     "id": order_detail_food.id,
                     "food_name": order_detail_food.food_name,
-                    "food_price": order_detail_food.price,
-                    # "food_img": order_detail.food_img,
+                    "food_price": order_detail_food.food_price,
+                    "food_img": order_detail_food.food_img,
                 }
                 foods.append(food)
             result["food"] = foods

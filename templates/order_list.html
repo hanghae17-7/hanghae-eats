@@ -13,14 +13,14 @@
                 {% for order in data["order"] %}
                     <div class="d-flex">
                         <h4 class="stats-item me-2">{{ order.order_id }}</h4>
-                        <p>{{ order.order_date }}</p>
+                        <p class="me-3">{{ order.order_date }}</p>
+                        <p class="me-3">{{ order.order_address }}</p>
                     </div>
                     <ul class="list-group">
                         {% for food in order.food %}
                             <li class="list-group-item">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <!-- 이미지를 추가하려면 여기에 이미지 태그를 추가하세요 -->
                                         <img src="#" width="280px" height="130px" style="vertical-align: middle;">
                                     </div>
                                     <div class="col-md-9">
