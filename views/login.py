@@ -25,10 +25,13 @@ def login():
             print("asdfasdf", flush=True)
 
             payload = {'email': email, 'expire': dateString}
+            # jwt 토큰 생성
             token = encode(payload, JWT_SECRET_KEY,
-                           algorithm='HS256')  # 응답 jsonify 객체 생성
+                           algorithm='HS256')
+
+            # 응답 jsonify 객체 반환
             return jsonify({'result': 'success', 'token': token})
-            # jwt 토큰?
+
         else:
             print("2 else")
             flash('비밀번호가 틀렸습니다', 'error')
@@ -43,31 +46,3 @@ def validate_login(email, password):
     if user:
         return True
     return False
-
-
-@bp.route('/token-check', methods=["GET"])
-def checkTokenVaild():
-    # 쿠키에서 토큰 불러옴
-    token_receive = request.cookies.get('mytoken')
-
-    print(token_receive)
-    try:
-        # decode
-        payload = jwt.decode(token_receive, JWT_SECRET_KEY,
-                             algorithms=['HS256'])
-        print(payload)
-        expire_time = datetime.datetime.strptime(
-            payload['expire'], '%Y-%m-%d %H:%M:%S')
-
-        print(expire_time)
-        if expire_time < datetime.datetime.now():
-            # 만료 시간이 현재 시각보다 이전인 경우 로그인 페이지로 리디렉션
-            print("Token has expired")
-            return redirect('/login')
-        else:
-            # 로그인 성공
-            print("로그인성공")
-            return redirect('/storelist')
-    except:
-        print("except")
-        return redirect('/login')

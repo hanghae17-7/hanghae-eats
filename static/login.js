@@ -16,10 +16,9 @@ function loginformsubmit(e) {
     .then((response) => response.json())
     .then((data) => {
       console.log(data);
-
       if (data.result == "success") {
         document.cookie = "mytoken=" + data.token + "; path=/";
-        window.location.replace("/login/token-check");
+        window.location.replace("/storelist"); // 로그인 성공했으므로 가게리스트 페이지로 이동
       } else {
         console.log("response undefined");
       }
