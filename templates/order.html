@@ -22,7 +22,7 @@
                     <input type="text" id="food_price{{ food.id }}" name="food_price{{ food.id }}" value="{{ food.food_price }}" readonly><br><br>
             
                     <label for="food_count{{ food.id }}">수량:</label>
-                    <input type="text" id="food_count{{ food.id }}" name="food_count{{ food.id }}" value="1" readonly><br><br>
+                    <input type="text" id="food_count{{ food.id }}" name="food_count{{ food.id }}" value="{{ food.food_count}}" readonly><br><br>
                 </li>
                 {% endfor %}
             </ul>
@@ -30,6 +30,30 @@
         {% endfor %}
     </ul>
     <!-- 총 가격을 나타내는 total_price 추가 -->
-    <p>총 가격: {{ total_price }}</p>
+    <p>총 가격: {{ data["total_price"] }}</p>
+    <button type="button" id="submitOrderButton">주문하기</button>
+    <script>
+        document.getElementById("submitOrderButton").addEventListener("click", function() {
+            // 데이터를 서버에 POST
+            var formData = {
+                cart_list: {{ data['cart_list'] | tojson }},  // Python dict를 JSON 문자열로 변환
+                total_price: {{ data['total_price'] }}
+            };
+            console.log('form_date : ', formData);
+            fetch('/order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),  // JSON 데이터를 서버로 전송
+            }).then(response => {
+                return response.text();
+            }).then(data => {
+                console.log(data);  // 서버에서 받은 응답 메시지 표시
+                // window.location.href = '/order/list'; TODO: 주문목록으로 이동하기.
+            });
+        });
+    </script>
 </body>
 </html>
+

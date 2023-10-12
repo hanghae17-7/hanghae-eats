@@ -1,5 +1,9 @@
 from flask import Blueprint, render_template, request, url_for, session, redirect 
 from models.order import Order, OrderDetail
+from db_connect import db
+
+from datetime import datetime
+from pytz import timezone
 
 
 bp = Blueprint('order', __name__, url_prefix='/order')
@@ -10,7 +14,7 @@ def order_list():
     주문 목록
     """
     if request.method == 'GET':    
-        login_user = 1 # session or jwt or parameter
+        login_user = 1 # TODO: session or jwt or parameter
 
         context = {
             "order": []
@@ -46,7 +50,31 @@ def order():
     주문
     """
     if request.method == 'POST':
-        return None
+        data = request.get_json()
+        print('data : ', data)
+        user_id = 1  # TODO: session or jwt or parameter
+        shop_id = data['cart_list'][0]['shop_id']
+        order_date = datetime.now(timezone('Asia/Seoul')).strftime("%Y-%m-%d %H:%M:%S")
+        total_price = data['total_price']    
+
+        print('user_id, shop_id, order_date, total_price : ', user_id, shop_id, order_date, total_price)
+        [ print("data['food'] : ", i) for i in data['cart_list'][0]['food']] 
+        order = Order(user_id=user_id, shop_id=shop_id, order_date=order_date, total_price=total_price)
+        db.session.add(order)
+
+        for food_data in data['cart_list'][0]['food']:
+            food_name = food_data['food_name']
+            food_count = food_data['food_count']
+            food_price = food_data['food_price']
+            print('food_name : ', food_name)
+            print('food_count : ', food_count)
+            print('food_price : ', food_price)
+            order_detail = OrderDetail(order=order, food_name=food_name, food_count=food_count, food_price=food_price)
+            db.session.add(order_detail)
+
+        db.session.commit()
+
+        return redirect(url_for('order.order_list'))
     
     # TODO: cart_data 가져오기로 변경
     context = {
@@ -58,21 +86,33 @@ def order():
                     {
                     'id':1,
                     'food_name':'테스트',
-                    'food_price':6000
+                    'food_price':6000,
+                    'food_count' : 2
                     },
                     {
                     'id':2,
                     'food_name':'테스트2',
-                    'food_price':3000
+                    'food_price':3000,
+                    'food_count' : 2,
                     },
                     {
                     'id':3,
                     'food_name':'테스트3',
-                    'food_price':0
+                    'food_price':1000,
+                    'food_count' : 2
                     }
                 ]
             },
         ]
     }
+
+    total_price = 0  # 총 가격 초기화
+
+    for cart in context['cart_list']:
+        for food in cart['food']:
+            # 각 음식 항목의 수량과 가격을 곱하여 총 가격을 계산
+            total_price += food['food_price'] * food['food_count']
+
+    context['total_price'] = total_price
     
     return render_template("order.html", data=context)
