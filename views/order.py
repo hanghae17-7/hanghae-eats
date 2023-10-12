@@ -104,7 +104,7 @@ def order():
         db.session.commit()
 
         # 주문이 완료되면 cart 테이블의 데이터를 삭제
-        # Cart.query.delete()
+        Cart.query.delete()
 
         return redirect(url_for('order.order_list'))
     
