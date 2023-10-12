@@ -1,0 +1,36 @@
+.card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    border: 3px solid powderblue;
+    border-radius: 10px;
+    margin: 10px;
+    max-width: 1500px;
+    min-height: 100px;
+}
+
+.card img {
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+/* .card-content {
+    flex: 1;
+} */
+footer {
+    margin-top: 50px;
+}
+.atag {
+    text-decoration: none;
+    margin-left : 10px;
+}
+.btn {
+    font-size : 5px;
+    text-align: center;
+}
+.ptag {
+    margin-left : 10px;
+}

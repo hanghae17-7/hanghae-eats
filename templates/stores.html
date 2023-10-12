@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="../static/assets/css/store.css" />
+{% endblock %}
+
+{% block title%}
+    가게
+{% endblock%}
+
+{% block page_content %}
+    <div class="container mt-5" style="min-height: 300px; padding-Top: 40px;">
+        <div class="row mt-5">
+            {% for i in data %}
+                <div class="card">
+                    <img src="{{ i.image_url }}" alt="Sample Image">
+                    <div class="card-content">
+                        <a href="{{ url_for('food.food', id=i.id) }}" class="atag">{{ i.title }}</a>
+                        <br></br>
+                        <p class="ptag"> {{ i.contents }} </p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
