@@ -1,25 +1,45 @@
-{% extends 'base.html' %} {% block title%} 로그인 {% endblock %} {% block
-page_content %}
+{% extends 'base.html' %} {% block head %}
+<link href="../static/assets/css/login.css" rel="stylesheet" />
+{% endblock %} {% block title%} 로그인 {% endblock %} {% block page_content %}
 
-<h1>Login</h1>
-<form id="login-form" method="POST">
-  <label for="email">email :</label>
-  <input type="email" id="email" name="email" required /><br />
-  <label for="password">Password:</label>
-  <input type="password" id="password" name="password" required /><br />
-  <input type="submit" />
-</form>
-
-<p id="error-msg" style="color: red"></p>
-
+<section class="login">
+  <div class="login_box">
+    <div class="left">
+      <div class="top_link"></div>
+      <div class="contact">
+        <form id="login-form" method="POST">
+          <h3>SIGN IN</h3>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="이메일"
+            required
+          />
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="비밀번호"
+            required
+          />
+          <p id="error-msg" style="color: red"></p>
+          <button class="submit" type="submit">로그인</button>
+        </form>
+      </div>
+    </div>
+    <div class="right">
+      <img
+        src="../static/assets/img/loginimage.png"
+        style="object-fit: fill; height: 600px"
+        alt=""
+      />
+      <div class="right-text">
+        <h2>LONYX</h2>
+        <h5>A UX BASED CREATIVE AGENCEY</h5>
+      </div>
+    </div>
+  </div>
+</section>
 <script src="{{ url_for ('static', filename='assets/js/login.js') }}"></script>
 {% endblock %}
-
-<!-- <!doctype html>
-<html>
-  <head>
-    <title>Login</title>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  </head>
-  <body></body>
-</html> -->
