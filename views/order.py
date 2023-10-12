@@ -77,6 +77,7 @@ def order():
 
         print('user_id, shop_id, order_date, total_price : ', user_id, shop_id, order_date, total_price)
         [ print("data['food'] : ", i) for i in data['cart_list'][0]['food']] 
+        # TODO: shop_id
         # order = Order(user_id=user_id, shop_id=shop_id, order_date=order_date, total_price=total_price)
         # db.session.add(order)
 

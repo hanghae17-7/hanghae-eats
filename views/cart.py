@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, request, url_for, session, redirect 
 from models.cart import Cart
 from models.user import User
+from models.store import Store
+from models.food import Food
 # from models.food import Food
 from db_connect import db
 from myJWT import isTokenVaild, getUserEmail  # 토큰 유효성 검증 함수 사용하기 위해
@@ -32,18 +34,17 @@ def cart():
         cart_list = Cart.query.filter_by(user_id=user_id).all()
 
         
-        # for cart in cart_list:
-        #     food = Food.query.filter_by(id=cart.food_id).first()
-        #     shop = Shop.query.filter_by(id=cart.shop_id).first()
-        #     context['cart'].append({
-        #         'cart_id': cart.id,
-        #         'shop_id': shop.id,
-        #         'shop_name': shop.name,
-        #         'food_id': food.id,
-        #         'food_name': food.name,
-        #         'food_image': food.image,
-        #         'food_'
-        #     })
+        for cart in cart_list:
+            food = Food.query.filter_by(id=cart.food_id).first()
+            shop = Store.query.filter_by(id=cart.shop_id).first()
+            context['cart'].append({
+                'cart_id': cart.id,
+                'shop_id': shop.id,
+                'shop_name': shop.name,
+                'food_id': food.id,
+                'food_name': food.name,
+                'food_image': food.image,
+            })
         
         
         return render_template("cart.html", data=context)
