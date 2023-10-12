@@ -20,9 +20,18 @@
 
   <!-- Vendor CSS Files -->
   <link href="../static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../static/assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="../static/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="../static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
   <!-- Template Main CSS File -->
   <link href="../static/assets/css/main.css" rel="stylesheet">
+
+  {% block head %}
+
+  {% endblock %}
+  <title>{% block title %}{% endblock %}</title>
 </head>
 
 <body>
@@ -32,8 +41,6 @@
     <div class="container d-flex align-items-center justify-content-between">
 
       <a href="index.html" class="logo d-flex align-items-center me-auto me-lg-0">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="../static/assets/img/logo.png" alt=""> -->
         <h1>Hanghae-eats<span>.</span></h1>
       </a>
 
@@ -59,7 +66,9 @@
 
 
   <main id="main">
-
+    {% block page_content %}
+    
+    {% endblock %}
   </main>
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
@@ -71,7 +80,7 @@
           <div>
             <h4>Address</h4>
             <p>
-              항해, 부둣가 1번지 <br>
+              항해, 부둣가 99번지 <br>
               스파르타 빌딩 13<br>
             </p>
           </div>
@@ -94,7 +103,7 @@
           <div>
             <h4>Opening Hours</h4>
             <p>
-              <strong>Mon-Sat: 11AM</strong> - 23PM<br>
+              <strong>Mon-Sat: 9AM</strong> - 9PM<br>
               Sunday: Closed
             </p>
           </div>
@@ -122,7 +131,11 @@
 
   <!-- Vendor JS Files -->
   <script src="../../static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+  <script src="../../static/assets/vendor/aos/aos.js"></script>
+  <script src="../../static/assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="../../static/assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="../../static/assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="../../static/assets/vendor/php-email-form/validate.js"></script>
 
   <!-- Template Main JS File -->
   <script src="../../static/assets/js/main.js"></script>

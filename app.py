@@ -5,7 +5,7 @@ from db_connect import db
 import config
 
 # 4. views 폴더에 만든 파일이름
-from views import index, signup, login, order, myaccount, storelist
+from views import index, signup, login, order, myaccount, storelist, cart
 
 
 def create_app():
@@ -29,6 +29,7 @@ def create_app():
     app.register_blueprint(order.bp)
     app.register_blueprint(myaccount.bp)
     app.register_blueprint(storelist.bp)
+    app.register_blueprint(cart.bp)
 
     return app
 
