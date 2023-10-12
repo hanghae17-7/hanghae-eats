@@ -1,5 +1,9 @@
 from flask import Flask
 from flask_migrate import Migrate
+from flask_jwt_extended import *  # jwt 서드파티 등록
+from jwt import encode
+from werkzeug.security import generate_password_hash, check_password_hash
+
 from db_connect import db
 import config
 # 4. views 폴더에 만든 파일이름
