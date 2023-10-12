@@ -20,11 +20,11 @@ function loginformsubmit(e) {
         document.cookie = "mytoken=" + data.token + "; path=/";
         window.location.replace("/storelist"); // 로그인 성공했으므로 가게리스트 페이지로 이동
       } else {
-        console.log("response undefined");
+        console.log("로그인 fail data 넘어옴");
       }
     })
     .catch((r) => {
-      console.log("catch에 걸림");
+      console.log("서버에서 토큰 데이터가 넘어오지 않는 예외");
     });
 }
 

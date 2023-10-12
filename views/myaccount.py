@@ -13,6 +13,6 @@ def myaccount():
         return redirect("/login")  # 다시 로그인 페이지로
     # 3 필요하다면,  user email 토큰에서 꺼내기
     email = getUserEmail()
-    
+
     user = User.query.filter_by(email=email).first()
     return render_template('myaccount.html', user=user)

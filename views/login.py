@@ -33,7 +33,7 @@ def login():
             return jsonify({'result': 'success', 'token': token})
 
         else:
-            print("2 else")
+            print("비밀번호 틀림")
             flash('비밀번호가 틀렸습니다', 'error')
             return render_template('login.html')
 
