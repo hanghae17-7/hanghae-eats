@@ -20,6 +20,7 @@ def create_app():
 
     with app.app_context():
         db.create_all()
+        
 
     # 5. 만든 기능 작성 blueprint에 등록
     app.register_blueprint(index.bp)

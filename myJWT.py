@@ -9,6 +9,14 @@ from config import JWT_SECRET_KEY
 # 토큰 유효성 검증 함수
 
 
+def getUserEmail():
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, JWT_SECRET_KEY,
+                         algorithms=['HS256'])
+    email = payload['email']
+    return email
+
+
 def isTokenVaild():
 
     token_receive = request.cookies.get('mytoken')
