@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="../static/assets/css/food.css" />
+{% endblock %}
+
+{% block title%}
+  음식리스트
+{% endblock%}
+
+
+{% block page_content %}
+  <!-- flask for 반복문 -->
+  {% for food in data %}
+  <!-- food list-->
+  <div class="food-container">
+    <div class="food-item">
+      <img src="{{ food.furl }}" class="food-image">
+      <div class="food-details">
+        <h3>{{ food.fname }}</h3>
+        <p>{{ food.finfo }}</p>
+        <p class="food-price">가격: {{ food.fprice }}원</p>
+      </div>
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal_{{ loop.index }}">
+        추가
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal_{{ loop.index }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">주문</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+          <h3>{{food.fname}}</h3>
+          <div id="counter">0</div>
+          <button id="increment">+</button>
+          <button id="decrement">-</button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal">추가</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  {% endblock %}
