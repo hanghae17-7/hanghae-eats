@@ -1,18 +1,17 @@
 from flask import Blueprint, render_template, request, url_for, session, redirect 
 from models.food import Food
-from db_connect import db
 
 
 bp = Blueprint('food', __name__, url_prefix='/food')
 
-@bp.route('/<id>/', methods=['GET', 'POST'])
-def food(id):
+@bp.route('/<int:store_id>/', methods=['GET', 'POST'])
+def food(store_id):
     if request.method == 'GET':    
-        print('store_id : ', id)
+        print('store_id : ', store_id)
         # store_list 가져오기
-        foods = Food.query.filter_by(store_id=id).all()
+        foods = Food.query.filter_by(store_id=store_id).all()
         
-        return render_template("food2.html", data=foods)
+        return render_template("food.html", data=foods, store_id=store_id)
     
 
 # @bp.route('/', methods=['GET', 'POST'])

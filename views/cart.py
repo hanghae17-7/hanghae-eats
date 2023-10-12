@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, url_for, session, redirect 
+from flask import Blueprint, render_template, request, url_for, session, redirect, jsonify
 from models.cart import Cart
 from models.user import User
 from models.store import Store
@@ -22,7 +22,7 @@ def cart():
             return redirect("/login")  # 다시 로그인 페이지로
         
         context = {
-            'cart': []
+            'cart_list': []
         }
                 
         # token을 가져와 user 판별.
@@ -36,21 +36,35 @@ def cart():
         
         for cart in cart_list:
             food = Food.query.filter_by(id=cart.food_id).first()
-            shop = Store.query.filter_by(id=cart.shop_id).first()
-            context['cart'].append({
+            store = Store.query.filter_by(id=cart.store_id).first()
+            context['cart_list'].append({
                 'cart_id': cart.id,
-                'shop_id': shop.id,
-                'shop_name': shop.name,
+                'store_id': store.id,
+                'store_name': store.title,
                 'food_id': food.id,
-                'food_name': food.name,
-                'food_image': food.image,
+                'food_name': food.fname,
+                'food_image': food.furl,
+                'food_price': food.fprice,
+                'food_count': cart.food_count,
             })
         
         
         return render_template("cart.html", data=context)
     elif request.method == 'POST':
+        user_email = getUserEmail()
+        user_id = User.query.filter_by(email=user_email).first().id
 
-        return
+        data = request.json  # 클라이언트에서 전달한 JSON 데이터 받기
+        print("cart_data : ", data)
+        store_id = data.get('store_id')
+        food_id = data.get('food_id')
+        food_count = data.get('food_count')
+
+        new_cart = Cart(user_id=user_id, store_id=store_id, food_id=food_id, food_count=food_count)
+        db.session.add(new_cart)
+        db.session.commit()
+
+        return jsonify({'result': 'success'})
     
     elif request.method == 'DELETE':
 

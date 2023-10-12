@@ -1,5 +1,5 @@
-# 1. import Blueprint 
-from flask import Blueprint, render_template, request, url_for, session, redirect, flash
+# 1. import Blueprint
+from flask import Blueprint, jsonify, render_template, request, url_for, session, redirect, flash
 from models.user import User
 from db_connect import db
 
@@ -14,6 +14,7 @@ bp = Blueprint('signup', __name__, url_prefix='/signup')
 def signUp():
 
     if request.method == 'POST':
+        print(request.form)
         username = request.form['username']
         nickname = request.form['nickname']
         email = request.form['email']
@@ -22,16 +23,19 @@ def signUp():
         if checkEmailDuplicate(email):
             # 중복 이메일 있음
             print("이메일 중복", "error")
+            return jsonify({'result': 'false', 'error': '이미 가입한 이메일입니다.'})
         elif checkNicknameDuplicate(nickname):
             print("닉네임 중복", "error")
+            return jsonify({'result': 'false', 'error': '존재하는 닉네임입니다.'})
         else:
             newUser = User(username=username, nickname=nickname,
                            email=email, password=password)
             db.session.add(newUser)
             db.session.commit()
             print('회원가입이 완료되었습니다!', 'success')
-            return redirect(url_for('login'))
+            return jsonify({'result': 'success'})
 
+    print("get 요청시")
     return render_template('signup.html')
 
 

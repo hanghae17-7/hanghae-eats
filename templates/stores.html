@@ -15,7 +15,7 @@
                 <div class="card">
                     <img src="{{ i.image_url }}" alt="Sample Image">
                     <div class="card-content">
-                        <a href="{{ url_for('food.food', id=i.id) }}" class="atag">{{ i.title }}</a>
+                        <a href="{{ url_for('food.food', store_id=i.id) }}" class="atag">{{ i.title }}</a>
                         <br></br>
                         <p class="ptag"> {{ i.contents }} </p>
                     </div>
