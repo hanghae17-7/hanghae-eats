@@ -1,5 +1,6 @@
 const loginForm = document.getElementById("login-form");
 const errormsg = document.getElementById("error-msg");
+const signupBtn = document.getElementById("signup");
 function loginformsubmit(e) {
   e.preventDefault();
 
@@ -28,9 +29,14 @@ function loginformsubmit(e) {
       console.log("catch에 걸림");
     });
 }
+function gotoSignUp(e) {
+  e.preventDefault();
+  window.location.replace("/signup");
+}
 
 function init() {
   loginForm.addEventListener("submit", loginformsubmit, false);
+  signupBtn.addEventListener("click", gotoSignUp, false);
 }
 
 init();
