@@ -30,11 +30,11 @@ def order_list():
                 "order_date": order.order_date
             }
             foods = []
-            for order_detail in order_details:
+            for order_detail_food in order_details:
                 food = {
-                    "id": order_detail.id,
-                    "food_name": order_detail.food_name,
-                    "food_price": order_detail.price,
+                    "id": order_detail_food.id,
+                    "food_name": order_detail_food.food_name,
+                    "food_price": order_detail_food.price,
                     # "food_img": order_detail.food_img,
                 }
                 foods.append(food)
@@ -59,8 +59,8 @@ def order():
 
         print('user_id, shop_id, order_date, total_price : ', user_id, shop_id, order_date, total_price)
         [ print("data['food'] : ", i) for i in data['cart_list'][0]['food']] 
-        order = Order(user_id=user_id, shop_id=shop_id, order_date=order_date, total_price=total_price)
-        db.session.add(order)
+        # order = Order(user_id=user_id, shop_id=shop_id, order_date=order_date, total_price=total_price)
+        # db.session.add(order)
 
         for food_data in data['cart_list'][0]['food']:
             food_name = food_data['food_name']
@@ -69,10 +69,10 @@ def order():
             print('food_name : ', food_name)
             print('food_count : ', food_count)
             print('food_price : ', food_price)
-            order_detail = OrderDetail(order=order, food_name=food_name, food_count=food_count, food_price=food_price)
-            db.session.add(order_detail)
+            # order_detail = OrderDetail(order=order, food_name=food_name, food_count=food_count, food_price=food_price)
+            # db.session.add(order_detail)
 
-        db.session.commit()
+        # db.session.commit()
 
         return redirect(url_for('order.order_list'))
     
