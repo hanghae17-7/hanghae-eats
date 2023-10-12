@@ -6,14 +6,42 @@
   <body>
     <h1>Login</h1>
     <form method="POST">
-      <label for="username">Username:</label>
-      <input type="text" name="username" required /><br />
+      <label for="email">Username:</label>
+      <input type="email" id="email" name="email" required /><br />
       <label for="password">Password:</label>
-      <input type="password" name="password" required /><br />
-      <input type="submit" value="Login" />
+      <input type="password" id="password" name="password" required /><br />
+      <input type="submit" id="login-form" value="Login" />
     </form>
-    {% if error %}
-    <p>{{ error }}</p>
-    {% endif %}
+    <!-- flash 메시지 표시 -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <li{% if category == 'error' %} style="color: red;"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
   </body>
+  <script>
+    const loginForm = document.getElementById("login-form");
+    const resultDiv = document.getElementById("result");
+    loginForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      axios
+        .post("/login", {
+          email: email,
+          password: password,
+        })
+        .then(function (response) {
+          $.cookie("mytoken", response["token"], { path: "/" });
+          window.location.replace("/token-check");
+        })
+        .catch(function (error) {
+          resultDiv.innerHTML = " " + error.response.data.msg;
+        });
+    });
+  </script>
 </html>
