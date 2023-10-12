@@ -83,11 +83,13 @@ def login():
         user = User.query.filter_by(email=email).first()
         if user and validate_login(email, password):  # 로그인이 유효한 경우
 
-            dateString = (datetime.datetime.utcnow(  # TypeError: Object of type datetime is not JSON serializable 해결하기 위해
-            ) + datetime.timedelta(seconds=60)).strftime("%Y-%m-%d %H:%M:%S")
+            # TypeError: Object of type datetime is not JSON serializable 해결하기 위해 string으로 변환
+            dateString = (datetime.datetime.now()
+                          + datetime.timedelta(seconds=60*60*1)).strftime("%Y-%m-%d %H:%M:%S")
 
             payload = {'email': email, 'expire': dateString
                        }
+            print(payload)
             token = encode(payload, SECRET_KEY,
                            algorithm='HS256')  # 응답 jsonify 객체 생성
 
