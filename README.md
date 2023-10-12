@@ -79,3 +79,23 @@ def myaccount():
     user = User.query.filter_by(email=email).first()
     return render_template('myaccount.html', user=user)
 ```
+
+### 6. dev브랜치로 머지하기전 requirements.txt 업데이트하기
+새로 추가한 라이브러리가 있는 경우 다른사람이 작업하기 편하도록 어떤 라이브러리가 필요한지 알려줍시다.
+
+```
+pip freeze > requirements.txt
+```
+
+
+### 7. dev브랜치의 내용을 Feature 브랜치로 머지하고 나서 import error가 발생할 경우
+
+필요한 라이브러리가 설치되지 않은 경우입니다.
+![image](https://github.com/hanghae17-7/hanghae-eats/assets/93697934/02f6f76c-f630-4db9-a5ac-f952b6dfa235)
+vscode 환경에서 위의 사진처럼 requirements.txt 파일에 설치되지 않은 라이브러리를 확인할 수도 있고, 아래 명령어를 입력하여 자동으로 설치할 수도 있습니다.
+```
+pip install -r requirements.txt
+```
+
+**만약 requirements.txt에 있는 모든 라이브러리가 설치되어있는 경우라면 누군가 실수로 6.번의 과정을 하지 않은거니까 에러메세지 보고 합시다..
+
