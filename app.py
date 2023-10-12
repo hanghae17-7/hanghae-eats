@@ -1,11 +1,9 @@
+import os
 from flask import Flask
 from flask_migrate import Migrate
-from flask_jwt_extended import *  # jwt 서드파티 등록
-from jwt import encode
-from werkzeug.security import generate_password_hash, check_password_hash
-
 from db_connect import db
 import config
+
 # 4. views 폴더에 만든 파일이름
 from views import index, signup, login, order
 
@@ -17,6 +15,8 @@ def create_app():
     app.config.from_object(config)  # config에서 가져온 파일 사용
     db.init_app(app)  # SQLAlchemy 객체를 app 객체와 이어준다.
     Migrate().init_app(app, db)
+
+    app.secret_key = os.urandom(177)  # flash 사용으로 session secret key 필요
 
     with app.app_context():
         db.create_all()
