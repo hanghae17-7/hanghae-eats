@@ -5,6 +5,7 @@ from db_connect import db
 
 bp = Blueprint('main', __name__, url_prefix='/')
 
+
 @bp.route('/')
 def index():
     """

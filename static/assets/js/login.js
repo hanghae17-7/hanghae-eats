@@ -1,5 +1,5 @@
 const loginForm = document.getElementById("login-form");
-
+const errormsg = document.getElementById("error-msg");
 function loginformsubmit(e) {
   e.preventDefault();
 
@@ -18,30 +18,16 @@ function loginformsubmit(e) {
       console.log(data);
       if (data.result == "success") {
         document.cookie = "mytoken=" + data.token + "; path=/";
-        window.location.replace("/storelist"); // 로그인 성공했으므로 가게리스트 페이지로 이동
+        window.location.replace("/myaccount"); // 로그인 성공했으므로 가게리스트 페이지로 이동
       } else {
-        console.log("response undefined");
+        errormsg.textContent = "비밀번호가 틀렸습니다.";
       }
     })
     .catch((r) => {
+      window.location.replace("/login");
       console.log("catch에 걸림");
     });
 }
-
-// axios
-//   .post("/login", data)
-//   .then(function (response) {
-//     if (response["data"]["result"] == "success") {
-//       document.cookie =
-//         "mytoken=" + response["data"]["result"]["token"] + "; path=/";
-//       window.location.replace("/login/token-check");
-//     } else {
-//       console.log("response undefined");
-//     }
-//   })
-//   .catch(function (error) {
-//     console.log(error);
-//   });
 
 function init() {
   loginForm.addEventListener("submit", loginformsubmit, false);

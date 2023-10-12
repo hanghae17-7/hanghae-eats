@@ -1,31 +1,25 @@
-<!doctype html>
+{% extends 'base.html' %} {% block title%} 로그인 {% endblock %} {% block
+page_content %}
+
+<h1>Login</h1>
+<form id="login-form" method="POST">
+  <label for="email">email :</label>
+  <input type="email" id="email" name="email" required /><br />
+  <label for="password">Password:</label>
+  <input type="password" id="password" name="password" required /><br />
+  <input type="submit" />
+</form>
+
+<p id="error-msg" style="color: red"></p>
+
+<script src="{{ url_for ('static', filename='assets/js/login.js') }}"></script>
+{% endblock %}
+
+<!-- <!doctype html>
 <html>
   <head>
     <title>Login</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
   </head>
-  <body>
-    <h1>Login</h1>
-    <form id = 'login-form' method="POST">
-      <label for="email">email :</label>
-      <input type="email" id="email" name="email" required /><br />
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required /><br />
-      <input type = 'submit'/>
-    </form>
-    
-    <!-- flash 메시지 표시 -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <ul>
-                {% for category, message in messages %}
-                    <li{% if category == 'error' %} style="color: red;"{% endif %}>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
-
-  <script src="{{ url_for ('static', filename='login.js') }}"></script>
-  </body>
-</html>
+  <body></body>
+</html> -->
