@@ -4,6 +4,7 @@ from jwt import encode
 import jwt
 from config import JWT_SECRET_KEY
 from models.user import User
+from encryptor import check_hash
 
 bp = Blueprint('login', __name__, url_prefix='/login')
 
@@ -11,14 +12,14 @@ bp = Blueprint('login', __name__, url_prefix='/login')
 @bp.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-
         email = request.form.get('email')
         password = request.form.get('password', False)
         print(email)
         print(password)
+
         user = User.query.filter_by(email=email).first()
 
-        if user and validate_login(email, password):  # 로그인이 유효한 경우
+        if user and check_hash(user.password, password):  # 로그인이 유효한 경우
             # TypeError: Object of type datetime is not JSON serializable 해결하기 위해 string으로 변환
             dateString = (datetime.datetime.now()
                           + datetime.timedelta(60*60*1)).strftime("%Y-%m-%d %H:%M:%S")
@@ -38,10 +39,3 @@ def login():
 
     print("get 요청시")
     return render_template('login.html')
-
-
-def validate_login(email, password):
-    user = User.query.filter_by(email=email, password=password).first()
-    if user:
-        return True
-    return False
