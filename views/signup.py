@@ -26,6 +26,7 @@ def signUp():
             print("이메일 중복", "error")
             return jsonify({'result': 'false', 'error': '이미 가입한 이메일입니다.'})
         elif checkNicknameDuplicate(nickname):
+            # 중복 닉네임 있음
             print("닉네임 중복", "error")
             return jsonify({'result': 'false', 'error': '존재하는 닉네임입니다.'})
         else:
